@@ -122,20 +122,16 @@
     </section>
     <section anchor="ProtocolVocabulary" title="Protocol Vocabulary">
         <section anchor="ProtocolDataUnit" title="Protocol Data Unit">
-
             <texttable anchor="ProtocolDataUnitFormat" title="Protocol Data Unit Format">
-                <ttcol align='center'>1B</ttcol>
-                <ttcol align='center'>1B</ttcol>
-                <ttcol align='center'>1B</ttcol>
-                <ttcol align='center'>1B</ttcol>
-                <ttcol align='center'>8B (64bit) unsigned integer</ttcol>
-                <ttcol align='center'>(varies)</ttcol>
-                <c>Version Byte</c>
-                <c>Unit Type Byte</c>
-                <c>Transmission Cause Type Byte</c>
-                <c>Requested Response Type Byte</c>
-                <c>Data Length Integer</c>
-                <c>Data Bytes</c>
+            	<ttcol align='center'>Length</ttcol>
+            	<ttcol align='center'>Meaning</ttcol>
+            	<c>1 byte</c><c>Version Byte</c>
+            	<c>1 byte</c><c>Unit Type Byte</c>
+            	<c>1 byte</c><c>Transmission Cause Type Byte</c>
+            	<c>1 byte</c><c>Requested Response Type Byte</c>
+            	<c>1 byte</c><c>Next Requested Response Type Byte</c>
+            	<c>8 bytes (64 bits) unsigned integer</c><c>Data Length Integer</c>
+            	<c>(varies)</c><c>Data Bytes</c>
             </texttable>
             <section anchor="VersionByte" title="Version Byte">
                 <t>
@@ -222,8 +218,8 @@
                         A Unit Type Byte equal to 0x01 specifies that the PDU in which it is received is of the Local Search type.
                     </t>
                     <texttable anchor="DataBytesFormatfortheLocalSearchPDU" title="Data Bytes Format for the Local Search PDU">
-                        <ttcol align='center'>1B</ttcol>
-                        <ttcol align='center'>4B (32bit) unsigned integer</ttcol>
+                        <ttcol align='center'>1 byte</ttcol>
+                        <ttcol align='center'>4 bytes (32 bits) unsigned integer</ttcol>
                         <c>Depth Limit</c>
                         <c>Timeout Milliseconds</c>
                     </texttable>
@@ -257,97 +253,119 @@
                     </t>
                 </section>
             </section>
-            <section anchor="ProcessCategory" title="Process Category of Types">
-                <section anchor="DataProcess" title="Data Process">
+            <section anchor="DataCategory" title="Data Category of Types">
+                <section anchor="SetStateData" title="Set State Data">
                     <t>
-                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Data Process type.
+                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Set State Data type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of a Data Process PDU:
+                        The following conditions apply to transmission of a Set State Data PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of a Data Process PDU:
+                        The following conditions apply to reception of a Set State Data PDU:
                     </t>
+                </section>
+                <section anchor="GetStateData" title="Get State Data">
+                	<t>
+                		A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Get State Data type.
+                	</t>
+                	<t>
+                		The following conditions apply to transmission of a Get State Data PDU:
+                	</t>
+                	<t>
+                		The following conditions apply to reception of a Get State Data PDU:
+                	</t>
+                </section>
+                <section anchor="ProcessInputData" title="Process Input Data">
+                	<t>
+                		A Unit Type Byte equal to 0x06 specifies that the PDU in which it is received is of the Process Input Data type.
+                	</t>
+                	<t>
+                		The following conditions apply to transmission of a Process Input Data PDU:
+                	</t>
+                	<t>
+                		The following conditions apply to reception of a Process Input Data PDU:
+                	</t>
                 </section>
                 <section anchor="ProcessStatus" title="Process Status">
                     <t>
-                        A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Process Status type.
+                        A Unit Type Byte equal to 0x07 specifies that the PDU in which it is received is of the Process Status type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of a Process Status PDU:
+                        The following conditions apply to transmission of a Process Status PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of a Process Status PDU:
+                        The following conditions apply to reception of a Process Status PDU:
                     </t>
                 </section>
             </section>
-            <section anchor="PrimitiveCategory" title="Primitive Category of Types">
+            <section anchor="TransferCategory" title="Transfer Category of Types">
                 <section anchor="ItemTransfer" title="Item Transfer">
                     <t>
-                        A Unit Type Byte equal to 0x06 specifies that the PDU in which it is received is of the Item Transfer type.
+                        A Unit Type Byte equal to 0x08 specifies that the PDU in which it is received is of the Item Transfer type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of an Item Transfer PDU:
+                        The following conditions apply to transmission of an Item Transfer PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of an Item Transfer PDU:
+                        The following conditions apply to reception of an Item Transfer PDU:
                     </t>
                 </section>
                 <section anchor="SetTransfer" title="Set Transfer">
                     <t>
-                        A Unit Type Byte equal to 0x07 specifies that the PDU in which it is received is of the Set Transfer type.
+                        A Unit Type Byte equal to 0x09 specifies that the PDU in which it is received is of the Set Transfer type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of a Set Transfer PDU:
+                        The following conditions apply to transmission of a Set Transfer PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of a Set Transfer PDU:
+                        The following conditions apply to reception of a Set Transfer PDU:
                     </t>
                 </section>
                 <section anchor="AssemblyTransfer" title="Assembly Transfer">
                     <t>
-                        A Unit Type Byte equal to 0x08 specifies that the PDU in which it is received is of the Assembly Transfer type.
+                        A Unit Type Byte equal to 0x10 specifies that the PDU in which it is received is of the Assembly Transfer type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of an Assembly Transfer PDU:
+                        The following conditions apply to transmission of an Assembly Transfer PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of an Assembly Tranfer PDU:
+                        The following conditions apply to reception of an Assembly Tranfer PDU:
                     </t>
                 </section>
             </section>
             <section anchor="ErrorCategory" title="Error Category of Types">
                 <section anchor="UnfulfillableRequest" title="Unfulfillable Request">
                     <t>
-                        A Unit Type Byte equal to 0x09 specifies that the PDU in which it is received is of the Unfulfillable Request type.
+                        A Unit Type Byte equal to 0x11 specifies that the PDU in which it is received is of the Unfulfillable Request type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of an Unfulfillable Request PDU:
+                        The following conditions apply to transmission of an Unfulfillable Request PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of an Unfulfillable Request PDU:
+                        The following conditions apply to reception of an Unfulfillable Request PDU:
                     </t>
                 </section>
                 <section anchor="NonsenseUnit" title="Nonsense Unit">
                     <t>
-                        A Unit Type Byte equal to 0x10 specifies that the PDU in which it is received is of the Nonsense Unit type.
+                        A Unit Type Byte equal to 0x12 specifies that the PDU in which it is received is of the Nonsense Unit type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of a Nonsense Unit PDU:
+                        The following conditions apply to transmission of a Nonsense Unit PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of a Nonsense Unit PDU:
+                        The following conditions apply to reception of a Nonsense Unit PDU:
                     </t>
                 </section>
                 <section anchor="NonsenseData" title="Nonsense Data">
                     <t>
-                        A Unit Type Byte equal to 0x11 specifies that the PDU in which it is received is of the Nonsense Data type.
+                        A Unit Type Byte equal to 0x13 specifies that the PDU in which it is received is of the Nonsense Data type.
                     </t>
                     <t>
-                        The following conditions apply to the transmission of a Nonsense Data PDU:
+                        The following conditions apply to transmission of a Nonsense Data PDU:
                     </t>
                     <t>
-                        The following conditions apply to the reception of a Nonsense Data PDU:
+                        The following conditions apply to reception of a Nonsense Data PDU:
                     </t>
                 </section>
             </section>
