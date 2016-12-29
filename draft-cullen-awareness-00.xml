@@ -187,6 +187,7 @@
             	<t>
             		The following conditions apply to reception of the Next Requested Response Type Byte:
             	</t>
+            </section>
             <section anchor="DataLengthInteger" title="Data Length Integer">
                 <t>
                     The Data Length Integer is a 64-bit unsigned integer representative of the number of bytes to be sent in the following Data Bytes section of the Protocol Data Unit in which it occurs.
