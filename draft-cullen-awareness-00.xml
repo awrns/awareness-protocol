@@ -107,6 +107,9 @@
                 </t>
             </section>
             <section anchor="Assembly" title="Assembly">
+            	<t>
+            		An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Function of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for a specific Set to be modeled by an Algorithm. Additionally, because of this, an Assembly contains a Set for which it is modeled.
+            	</t>
             </section>
         </section>
 
