@@ -114,8 +114,6 @@
         </section>
 
     </section>
-    <section anchor="ProcessingAnalysis" title="Processing Analysis">
-    </section>
     <section anchor="ProtocolVocabulary" title="Protocol Vocabulary">
         <section anchor="ProtocolDataUnit" title="Protocol Data Unit">
             <t>
@@ -152,7 +150,6 @@
                 <t>
                     The following conditions apply to reception of the Version Byte:
                     <list style="numbers">
-                        <t>The Version Byte of each PDU received SHOULD be checked for equality with the Version Byte with which the implementation is compatible.</t>
                         <t>If the Version Byte is not found equal to the Version Byte of a supported protocol version, the receiving implementation MUST send an Incompatible PDU.</t>
                     </list>
                 </t>
@@ -165,6 +162,7 @@
                     The following conditions apply to transmission of the Unit Type Byte:
                     <list style="numbers">
                         <t>The value of the Unit Type Byte MUST, according to the protocol version specified by the Version Byte, describe correctly the format of the Data Bytes.</t>
+                        <t>Any PDU transmitted following the reception of another PDU MUST have its Unit Type byte set to the same value present in the received Requested Response Type Byte.</t>
                     </list>
                 </t>
                 <t>
@@ -184,7 +182,7 @@
                 <t>
                     The following conditions apply to transmission of the Transmission Cause Type Byte:
                     <list style="numbers">
-                        <t>The Transmission Cause Type Byte MUST be equal to the Unit Type Byte of the PDU most recently received.</t>
+                        <t>The Transmission Cause Type Byte MUST be equal to the Unit Type Byte of the PDU most recently received if the Requested Response Type Byte of the previously received PDU was not equal to 0xFF.</t>
                         <t>If a PDU was previsouly received that had a Requested Response Type Byte equal to 0xFF, the Transmission Cause Type Byte MUST be equal to 0xFF.</t>
                         <t>The Transmission Cause Type Byte MUST carry only values of possible PDU types as described in this specification.</t>
                     </list>
@@ -192,8 +190,8 @@
                 <t>
                     The following conditions apply to reception of the Transmission Cause Type Byte:
                     <list style="numbers">
-                        <t>The Transmission Cause Type Byte MUST be compared with the Unit Type Byte of the PDU most recently transmitted, and a Nonsense Unit PDU MUST be sent if the two do not match. In the case that the Transmission Cause Type Byte has a value of 0xFF, this condition MUST be ignored.</t>
-                        <t>In the case that a received Transmission Cause Type Byte carries a value of 0xFF when a PDU with a Requested Response Type Byte not equal to 0xFF has been previously sent, a Nonsense Unit PDU MUST be sent.</t>
+                        <t>The Transmission Cause Type Byte MUST be compared with the Unit Type Byte of the PDU most recently transmitted if the Unit Type Byte of the recently transmitted PDU was not 0xFF, and a Nonsense Unit PDU MUST be sent if the two do not match.</t>
+                        <t>In the case that a received Transmission Cause Type Byte carries a value of 0xFF when a PDU with a Requested Response Type Byte not equal to 0xFF was previously sent, a Nonsense Unit PDU MUST be sent.</t>
                     </list>
                 </t>
             </section>
@@ -205,14 +203,14 @@
                     The following conditions apply to transmission of the Requested Response Type Byte:
                     <list style="numbers">
                         <t>The Requested Response Type Byte MUST carry only values of possible PDU types that are listed as valid responses to the PDU type in which it occurs. Valid responses to each PDU type are described in the Data Unit Types section.</t>
-                        <t>The Requested Response Type Byte MUST be set to 0xFF only if a response is not expected and the conlusion of the network conversation at this time is allowed by the PDU type in which it occurs.</t>
+                        <t>The Requested Response Type Byte MUST be set to 0xFF only if a response is not expected and the conlusion of the network conversation at this time is allowed after transmission of the PDU type in which it occurs.</t>
                     </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Requested Response Type Byte:
                     <list style="numbers">
-                        <t>The PDU transmitted following the reception of a specific Requested Response Type Byte MUST have its Data Unit Type byte set to the same value present in the Requested Response Tye Byte.</t>
-                        <t>If a Requested Response Type Byte is received that does not carry a value of 
+                        <t>If a Requested Response Type Byte is received that does not carry a value of 0xFF, a suitable PDU MUST be sent in reply.</t>
+                    </list>
                 </t>
             </section>
             <section anchor="NextRequestedResponseTypeByte" title="Next Requested Response Type Byte">
@@ -221,9 +219,16 @@
             	</t>
             	<t>
             		The following conditions apply to transmission of the Next Requested Response Type Byte:
+                    <list style="numbers">
+                        <t>The Next Requested Response Type Byte MUST carry only values of possible PDU types that are listed as valid responses to a PDU of the type specified in the Requested Response Type Byte.</t>
+                        <t>The Next Requested Response Type Byte MUST be set to 0xFF in the case that the transmitting Node wishes to receive a PDU in response that has a Requested Response Type Byte equal to 0x00.</t>
+                    </list>
             	</t>
             	<t>
             		The following conditions apply to reception of the Next Requested Response Type Byte:
+                    <list style="numbers">
+                        <t>The PDU sent in response to a PDU containing a Requested Response Type Byte not equal to 0x00 MUST have its own Requested Response Type Byte set to the value of the Next Requested Response Type Byte in the received PDU.</t>
+                    </list>
             	</t>
             </section>
             <section anchor="DataLengthInteger" title="Data Length Integer">
@@ -430,6 +435,8 @@
                 </section>
             </section>
         </section>
+    </section>
+    <section anchor="ProcessingAnalysis" title="Processing Analysis">
     </section>
     <section anchor="Security" title="Security Considerations">
     </section>
