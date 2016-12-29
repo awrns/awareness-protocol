@@ -159,7 +159,7 @@
             </section>
             <section anchor="UnitTypeByte" title="Unit Type Byte">
                 <t>
-                    The Unit Type Byte is representative of the parsing that should be enacted for the Data Bytes section of the specific Protocol Data Unit in which it occurs.
+                    The Unit Type Byte is representative of the parsing that should be enacted for the Data Bytes section of the specific PDU in which it occurs. It will also be referred to as describing the "PDU type".
                 </t>
                 <t>
                     The following conditions apply to transmission of the Unit Type Byte:
@@ -185,14 +185,15 @@
                     The following conditions apply to transmission of the Transmission Cause Type Byte:
                     <list style="numbers">
                         <t>The Transmission Cause Type Byte MUST be equal to the Unit Type Byte of the PDU most recently received.</t>
-                        <t>If no PDU was previsouly received, the Transmission Cause Type Byte MUST be equal to 0xFF.</t>
+                        <t>If a PDU was previsouly received that had a Requested Response Type Byte equal to 0xFF, the Transmission Cause Type Byte MUST be equal to 0xFF.</t>
                         <t>The Transmission Cause Type Byte MUST carry only values of possible PDU types as described in this specification.</t>
                     </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Transmission Cause Type Byte:
                     <list style="numbers">
-                        <t>The Transmission Cause Type Byte MUST be compared with the Unit Type Byte of the PDU most recently transmitted, and a Nonsense Unit PDU MUST be sent if the two do not match.</t>
+                        <t>The Transmission Cause Type Byte MUST be compared with the Unit Type Byte of the PDU most recently transmitted, and a Nonsense Unit PDU MUST be sent if the two do not match. In the case that the Transmission Cause Type Byte has a value of 0xFF, this condition MUST be ignored.</t>
+                        <t>In the case that a received Transmission Cause Type Byte carries a value of 0xFF when a PDU with a Requested Response Type Byte not equal to 0xFF has been previously sent, a Nonsense Unit PDU MUST be sent.</t>
                     </list>
                 </t>
             </section>
@@ -203,11 +204,15 @@
                 <t>
                     The following conditions apply to transmission of the Requested Response Type Byte:
                     <list style="numbers">
-                        <t></t>
+                        <t>The Requested Response Type Byte MUST carry only values of possible PDU types that are listed as valid responses to the PDU type in which it occurs. Valid responses to each PDU type are described in the Data Unit Types section.</t>
+                        <t>The Requested Response Type Byte MUST be set to 0xFF only if a response is not expected and the conlusion of the network conversation at this time is allowed by the PDU type in which it occurs.</t>
                     </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Requested Response Type Byte:
+                    <list style="numbers">
+                        <t>The PDU transmitted following the reception of a specific Requested Response Type Byte MUST have its Data Unit Type byte set to the same value present in the Requested Response Tye Byte.</t>
+                        <t>If a Requested Response Type Byte is received that does not carry a value of 
                 </t>
             </section>
             <section anchor="NextRequestedResponseTypeByte" title="Next Requested Response Type Byte">
