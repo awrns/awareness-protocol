@@ -177,6 +177,16 @@
                     The following conditions apply to reception of the Requested Response Type Byte:
                 </t>
             </section>
+            <section anchor="NextRequestedResponseTypeByte" title="Next Requested Response Type Byte">
+            	<t>
+            		The Next Requested Response Type Byte specifies the expected value of the Requested Response Type Byte in the PDU sent as a reply to the one in which the Next Requested Response Type Byte occurs. In other words, this byte specifies the PDU type which the sending Node wishes to send next to the receiving Node after it has replied in accordance with the first Requested Response Type Byte.
+            	</t>
+            	<t>
+            		The following conditions apply to transmission of the Next Requested Response Type Byte:
+            	</t>
+            	<t>
+            		The following conditions apply to reception of the Next Requested Response Type Byte:
+            	</t>
             <section anchor="DataLengthInteger" title="Data Length Integer">
                 <t>
                     The Data Length Integer is a 64-bit unsigned integer representative of the number of bytes to be sent in the following Data Bytes section of the Protocol Data Unit in which it occurs.
