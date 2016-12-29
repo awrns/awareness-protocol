@@ -108,7 +108,7 @@
             </section>
             <section anchor="Assembly" title="Assembly">
             	<t>
-            		An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Function of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for a specific Set to be modeled by an Algorithm. Additionally, because of this, an Assembly contains a Set for which it is modeled.
+            		An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Function of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for a specific Set to be modeled by an Algorithm. Additionally, because of this, an Assembly refers to a Set for which it is modeled.
             	</t>
             </section>
         </section>
@@ -118,6 +118,9 @@
     </section>
     <section anchor="ProtocolVocabulary" title="Protocol Vocabulary">
         <section anchor="ProtocolDataUnit" title="Protocol Data Unit">
+            <t>
+                This section describes the format of the Protocol Data Unit (PDU), the standard unit of network communication in the Awareness protocol. The following table lists the components of a PDU, in order of transmission over the network.
+            </t>
             <texttable anchor="ProtocolDataUnitFormat" title="Protocol Data Unit Format">
             	<ttcol align='center'>Length</ttcol>
             	<ttcol align='center'>Meaning</ttcol>
@@ -129,15 +132,29 @@
             	<c>8 bytes (64 bits) unsigned integer</c><c>Data Length Integer</c>
             	<c>(varies)</c><c>Data Bytes</c>
             </texttable>
+            <t>
+                The following conditions apply to transmission of any PDU:
+                <list style="numbers">
+                    <t>Data items MUST be transmitted in the order listed in the table above.</t>
+                    <t>Data items MUST be encoded as described in the sections following, in little-endian (network) byte order.</t>
+                </list>
+            </t>
             <section anchor="VersionByte" title="Version Byte">
                 <t>
                     The Version Byte is representative of the version and format of the Awareness protocol in use, and is provided to ensure that integration of future protocol versions will be possible.
                 </t>
                 <t> 
                     The following conditions apply to transmission of the Version Byte:
+                    <list style="numbers">
+                        <t>The Version Byte MUST be equal to 0x00 if the protocol described here is being implemented.</t>
+                    </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Version Byte:
+                    <list style="numbers">
+                        <t>The Version Byte of each PDU received SHOULD be checked for equality with the Version Byte with which the implementation is compatible.</t>
+                        <t>If the Version Byte is not found equal to the Version Byte of a supported protocol version, the receiving implementation MUST send an Incompatible PDU.</t>
+                    </list>
                 </t>
             </section>
             <section anchor="UnitTypeByte" title="Unit Type Byte">
@@ -146,9 +163,18 @@
                 </t>
                 <t>
                     The following conditions apply to transmission of the Unit Type Byte:
+                    <list style="numbers">
+                        <t>The value of the Unit Type Byte MUST, according to the protocol version specified by the Version Byte, describe correctly the format of the Data Bytes.</t>
+                    </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Unit Type Byte:
+                    <list style="numbers">
+                        <t>The Unit Type Byte MUST carry only values of possible PDU types as described in this specification.</t>
+                        <t>The Unit Type Byte MUST be used in determination of the format with which to decode the Data Bytes.</t>
+                        <t>Implementations MUST NOT consider PDUs with equivalent Unit Type Bytes compatible if their Version Bytes are not also equivalent.</t>
+                        <t>If a Unit Type Byte is received that does not carry a value of a possible PDU type as defined in this specification, a Nonsense Unit PDU MUST be sent.</t>
+                    </list>
                 </t>
             </section>
             <section anchor="TransmissionCauseTypeByte" title="Transmission Cause Type Byte">
@@ -157,9 +183,17 @@
                 </t>
                 <t>
                     The following conditions apply to transmission of the Transmission Cause Type Byte:
+                    <list style="numbers">
+                        <t>The Transmission Cause Type Byte MUST be equal to the Unit Type Byte of the PDU most recently received.</t>
+                        <t>If no PDU was previsouly received, the Transmission Cause Type Byte MUST be equal to 0xFF.</t>
+                        <t>The Transmission Cause Type Byte MUST carry only values of possible PDU types as described in this specification.</t>
+                    </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Transmission Cause Type Byte:
+                    <list style="numbers">
+                        <t>The Transmission Cause Type Byte MUST be compared with the Unit Type Byte of the PDU most recently transmitted, and a Nonsense Unit PDU MUST be sent if the two do not match.</t>
+                    </list>
                 </t>
             </section>
             <section anchor="RequestedResponseTypeByte" title="Requested Response Type Byte">
@@ -168,6 +202,9 @@
                 </t>
                 <t>
                     The following conditions apply to transmission of the Requested Response Type Byte:
+                    <list style="numbers">
+                        <t></t>
+                    </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Requested Response Type Byte:
@@ -373,6 +410,17 @@
                     </t>
                     <t>
                         The following conditions apply to reception of a Nonsense Data PDU:
+                    </t>
+                </section>
+                <section anchor="Incompatible" title="Imcompatible">
+                    <t>
+                        A Unit Type Byte equal to 0x14 specifies that the PDU in which it is received is of the Incompatible type.
+                    </t>
+                    <t>
+                        The following conditions apply to transmission of an Incompatible PDU:
+                    </t>
+                    <t>
+                        The following conditions apply to reception of an Incompatible PDU:
                     </t>
                 </section>
             </section>
