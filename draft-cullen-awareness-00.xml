@@ -267,8 +267,7 @@
                 </t>
             </section>
         </section>
-        <section anchor="DataUnitTypes" title="Data Unit Types">
-            <section anchor="Nothing" title="Nothing">
+            <section anchor="NothingDataUnitType" title="NothingDataUnitType">
                 <t>
                     A Unit Type Byte equal to 0x00 specifies that the PDU in which it is received is of the Nothing type. A Nothing PDU's Data Bytes section contains no data.
                 </t>
@@ -283,7 +282,7 @@
                     The following conditions apply to reception of a Nothing PDU:
                 </t>
             </section>
-            <section anchor="SearchCategory" title="Search Category of Types">
+            <section anchor="SearchCategoryofPDUTypes" title="Search Category of PDU Types">
                 <section anchor="LocalSearch" title="Local Search">
                     <t>
                         A Unit Type Byte equal to 0x01 specifies that the PDU in which it is received is of the Local Search type.
@@ -313,7 +312,7 @@
                     </t>
                 </section>
             </section>
-            <section anchor="DataCategory" title="Data Category of Types">
+            <section anchor="DataCategoryofPDUTypes" title="Data Category of PDU Types">
                 <section anchor="GetAcceptableData" title="Get Acceptable Data">
                     <t>
                         A Unit Type Byte equal to 0x03 specifies that the PDU in which it is received is of the Get Acceptable Data type.
@@ -337,7 +336,7 @@
                 	</t>
                 </section>
             </section>
-            <section anchor="TransferCategory" title="Transfer Category of Types">
+            <section anchor="TransferCategoryofPDUTypes" title="Transfer Category of PDU Types">
                 <section anchor="ItemTransfer" title="Item Transfer">
                     <t>
                         A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Item Transfer type.
@@ -372,7 +371,7 @@
                     </t>
                 </section>
             </section>
-            <section anchor="ErrorCategory" title="Error Category of Types">
+            <section anchor="ErrorCategoryofPDUTypes" title="Error Category of PDU Types">
                 <section anchor="UnfulfillableRequest" title="Unfulfillable Request">
                     <t>
                         A Unit Type Byte equal to 0x08 specifies that the PDU in which it is received is of the Unfulfillable Request type.
@@ -417,7 +416,6 @@
                         The following conditions apply to reception of an Incompatible PDU:
                     </t>
                 </section>
-            </section>
         </section>
     </section>
     <section anchor="ProcessingAnalysis" title="Processing Analysis">
