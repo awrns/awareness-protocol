@@ -68,6 +68,11 @@
 
 
         <section anchor="DataRepresentation" title="Data Representation">
+
+            <t>
+                This section describes the units of data storage and manipulation whose use is necessary in other parts of the Awareness system.
+            </t>
+
             <section anchor="Item" title="Item">
                 <t>
                     The concept of Awareness is based on a very simple representation of data where each of the multiple parameters comprising a data point is stored as a floating-point value between 0.0 and 1.0, inclusive. A single data point, or item, is an array of one or more of these parameters. A data item's parameters carry meaning by their order, and are implicitly numerically indexed. Data items used for a specific purpose always maintain their parameter content and meaning (the number of parameters nor the parameter order does not change). Data items' parameters have 64-bit (double) precision. Although initially it might seem difficult to encode non-numeric data in such a representation, the practice of exclusively allowing a numerical representation makes data easier to be computationally understood by means of machine learning.
@@ -75,7 +80,7 @@
             </section>
             <section anchor="Set" title="Set">
                 <t>
-                    It is often necessary to store and manipulate collections of data points, which are known as Sets. A Set provides the structure necessary to encode the input, state, and output of a Function over multiple iterations, and additionally can be used to model a new Function. It consists of three 'streams' of Items - one for input, one for state, and one for output. Within one stream, the number of parameters present in each Item contained in the stream must be equal. For example, a Set might have input Items all containing 4 parameters, state Items all containing 2 parameters, and output Items all containing 1 parameter. The number of Items contained in all three streams in a Set will be equal.
+                    It is often necessary to store and manipulate collections of data points, which are known as Sets. A Set provides the structure necessary to encode the input and output of a Function over multiple iterations, and additionally can be used to model a new Function. It consists of two 'streams' of Items - one for input, and one for output. Within one stream, the number of parameters present in each Item contained in the stream must be equal. For example, a Set might have input Items all containing 4 parameters, and output Items all containing 1 parameter. The number of Items contained in all two streams within a Set will be equal.
                 </t>
             </section>
         </section>
@@ -88,7 +93,7 @@
 
             <section anchor="Node" title="Node">
                 <t>
-                    A Node is a unit of network-connected functionality, which contains variable-length lists of Functions, Endpoints, Algorithms, and Assemblies. It maintains, through its list of Functions, one or more network-accessible operations on data. Through its list of Endpoints it stores information which can be used to contact other known Nodes over the network. Its Algorithms each manage a recursive search operation being performed over the Endpoints with which the Node is in contact, and its Assemblies store known pipelines of network-accessible data processing derived from such recursive search operations.
+                    A Node is a unit of network-connected functionality, which contains variable-length lists of Functions, Endpoints, Algorithms, and Assemblies. It maintains, through its list of Functions, one or more network-accessible operations on data whose implementations are local (e.g. they describe operations which can be carried out without the need for network interaction). Through its list of Endpoints, it maintains knowledge of the other Nodes on the network, which can be asked remotely to provide operations on data through their own local Functions. Its Algorithms each manage a recursive search operation being performed over the Endpoints with which the Node is in contact, and its Assemblies store known pipelines of network-accessible data processing derived from such recursive search operations.
                 </t>
             </section>
             <section anchor="Function" title="Function">
@@ -98,21 +103,22 @@
             </section>
             <section anchor="Endpoint" title="Endpoint">
                 <t>
-                    An Endpoint is very similar in operation to a Function, with the exception that it refers to a Function accessible over the network rather than implemented locally. However, it also provides the same ability for state data to be read or written, and for input data to be exchanged for output data. In this way an Endpoint additionally serves the purpose of a network client, and as such must also store the IP address and port at which the remote Node to which it refers can be accessed. Finally, an Endpoint provides the ability to be connected or disconnected to the remote Node.
+                    An Endpoint is very similar in operation to a Node, with the exception that it refers to a Node accessible over the network rather than present locally. It also, however, provides the same capability to contain multiple available Functions, which provide specific operations on data (but in the case of an Endpoint over the network). In this way an Endpoint additionally serves the purpose of a network client, and as such must also store the IP address and port at which the remote Node to which it refers can be accessed. Finally, an Endpoint provides the ability to be connected or disconnected to the remote Node.
                 </t>
             </section>
             <section anchor="Algorithm" title="Algorithm">
                 <t>
-                    An Algorithm provides the recursive search method that is described in more detail in the Processing Analysis section. In summary, it is provided with a Set for which a suitable Assembly must be created (that as closely as possible models the inputs, states, and outputs of the Items of the Set), a recursion limit, and a time limit within which the process must be completed.
+                    An Algorithm provides the recursive search method that is described in more detail in the Processing Analysis section. In summary, it is provided with a Set for which a suitable Assembly must be created (that as closely as possible models the inputs, states, and outputs of the Items of the Set), a recursion limit, and a time limit within which the process must be completed. It enacts a search over the Endpoints accessible from a Node in order to begin, within each, an identical search operation and evaluates the suitability of the results provided (in the form of an Assembly which approximates as closely as possible the input Set) by each.
                 </t>
             </section>
             <section anchor="Assembly" title="Assembly">
             	<t>
-            		An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Function of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for a specific Set to be modeled by an Algorithm. Additionally, because of this, an Assembly refers to a Set for which it is modeled.
+            		An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Function of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for a specific Set to be modeled by an Algorithm. Additionally, because of this, each Assembly has a Set for which it is modeled.
             	</t>
             </section>
         </section>
-
+    </section>
+    <section anchor="ProcessingAnalysis" title="Processing Analysis">
     </section>
     <section anchor="ProtocolVocabulary" title="Protocol Vocabulary">
         <section anchor="ProtocolDataUnit" title="Protocol Data Unit">
@@ -417,8 +423,6 @@
                     </t>
                 </section>
         </section>
-    </section>
-    <section anchor="ProcessingAnalysis" title="Processing Analysis">
     </section>
     <section anchor="Security" title="Security Considerations">
     </section>
