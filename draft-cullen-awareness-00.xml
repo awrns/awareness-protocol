@@ -63,7 +63,7 @@
     <section anchor="SystemArchitecture" title="System Architecture">
 
         <t>
-            This section overviews the structures and units of processing used in Awareness, and describes the features of each and their contribution to the entire functionality-distribution network.
+            This section overviews the structures and units of processing used in Awareness, and describes the features of each and their contribution to the entire functionality-distribution network. This section is intended to provide a high-level overview of the system, and does not specify implementation requirements.
         </t>
 
 
@@ -83,6 +83,11 @@
                     It is often necessary to store and manipulate collections of data points, which are known as Sets. A Set provides the structure necessary to encode the input and output of a Function over multiple iterations, and additionally can be used to model a new Function. It consists of two 'streams' of Items - one for input, and one for output. Within one stream, the number of parameters present in each Item contained in the stream must be equal. For example, a Set might have input Items all containing 4 parameters, and output Items all containing 1 parameter. The number of Items contained in all two streams within a Set will be equal.
                 </t>
             </section>
+            <section anchor="Assembly" title="Assembly">
+                <t>
+                    An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Functions of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for the modeling of a specific Set, by an Algorithm. Thus, each Assembly has a Set for which it is modeled.
+                </t>
+            </section>
         </section>
 
         <section anchor="BlockStrucutre" title="Block Structure">
@@ -96,25 +101,23 @@
                     A Node is a unit of network-connected functionality, which contains variable-length lists of Functions, Endpoints, Algorithms, and Assemblies. It maintains, through its list of Functions, one or more network-accessible operations on data whose implementations are local (e.g. they describe operations which can be carried out without the need for network interaction). Through its list of Endpoints, it maintains knowledge of the other Nodes on the network, which can be asked remotely to provide operations on data through their own local Functions. Its Algorithms each manage a recursive search operation being performed over the Endpoints with which the Node is in contact, and its Assemblies store known pipelines of network-accessible data processing derived from such recursive search operations.
                 </t>
             </section>
-            <section anchor="Function" title="Function">
+            <section anchor="Ability" title="Ability">
                 <t>
                     A Function is representative of one locally-implemented, but network-accessible operation on data. A Function takes data as input and provides data as output. Each of the two uses of data (input and output) necessary within a Function is manipulated as an Item with a specific number of parameters. Therefore, a given Function has a unchanging input data 'size' (number of Item parameters), and an unchanging output data 'size'. A Function provides the ability for input data to be provided in exchange for output data.
                 </t>
             </section>
-            <section anchor="Endpoint" title="Endpoint">
-                <t>
-                    An Endpoint is very similar in operation to a Node, with the exception that it refers to a Node accessible over the network rather than present locally. It also, however, provides the same capability to contain multiple available Functions, which provide specific operations on data (but in the case of an Endpoint over the network). In this way an Endpoint additionally serves the purpose of a network client, and as such must also store the IP address and port at which the remote Node to which it refers can be accessed. Finally, an Endpoint provides the ability to be connected or disconnected to the remote Node.
-                </t>
+            <section anchor="LocalNode" title="Local Node">
+            </section>
+            <section anchor="LocalAbility" title="Local Ability">
+            </section>
+            <section anchor="RemoteNode" title="Remote Node">
+            </section>
+            <section anchor="RemoteAbility" title="Remote Ability">
             </section>
             <section anchor="Algorithm" title="Algorithm">
                 <t>
                     An Algorithm provides the recursive search method that is described in more detail in the Processing Analysis section. In summary, it is provided with a Set for which a suitable Assembly must be created (that as closely as possible models the inputs, states, and outputs of the Items of the Set), a recursion limit, and a time limit within which the process must be completed. It enacts a search over the Endpoints accessible from a Node in order to begin, within each, an identical search operation and evaluates the suitability of the results provided (in the form of an Assembly which approximates as closely as possible the input Set) by each.
                 </t>
-            </section>
-            <section anchor="Assembly" title="Assembly">
-            	<t>
-            		An Assembly is used to store data representing a completed pipeline of data processing over the network, which is comprised of uses of the Function of one or more accessible Endpoints (which refer to other Nodes over the network). It internally specifies the assignments between inputs of each function used and the outputs of the previous one, which are determined optimally for a specific Set to be modeled by an Algorithm. Additionally, because of this, each Assembly has a Set for which it is modeled.
-            	</t>
             </section>
         </section>
     </section>
@@ -126,15 +129,16 @@
                 This section describes the format of the Protocol Data Unit (PDU), the standard unit of network communication in the Awareness protocol. The following table lists the components of a PDU, in order of transmission over the network.
             </t>
             <texttable anchor="ProtocolDataUnitFormat" title="Protocol Data Unit Format">
-            	<ttcol align='center'>Length</ttcol>
-            	<ttcol align='center'>Meaning</ttcol>
-            	<c>1 byte</c><c>Version Byte</c>
-            	<c>1 byte</c><c>Unit Type Byte</c>
-            	<c>1 byte</c><c>Transmission Cause Type Byte</c>
-            	<c>1 byte</c><c>Requested Response Type Byte</c>
-            	<c>1 byte</c><c>Next Requested Response Type Byte</c>
-            	<c>8 bytes (64 bits) unsigned integer</c><c>Data Length Integer</c>
-            	<c>(varies)</c><c>Data Bytes</c>
+                <ttcol align='center'>Length</ttcol>
+                <ttcol align='center'>Format</ttcol>
+                <ttcol align='center'>Meaning</ttcol>
+                <c>1 byte</c><c>Must be 0x00</c><c>Version Byte</c>
+                <c>1 byte</c><c>PDU types only</c><c>Unit Type Byte</c>
+                <c>1 byte</c><c>PDU types only</c><c>Transmission Cause Type Byte</c>
+                <c>1 byte</c><c>PDU types only</c><c>Requested Response Type Byte</c>
+                <c>1 byte</c><c>PDU types only</c><c>Next Requested Response Type Byte</c>
+                <c>8 bytes</c><c>64-bit unsigned integer</c><c>Data Length Integer</c>
+                <c>(varies)</c><c>(varies)</c><c>Data Bytes</c>
             </texttable>
             <t>
                 The following conditions apply to transmission of any PDU:
@@ -150,7 +154,7 @@
                 <t> 
                     The following conditions apply to transmission of the Version Byte:
                     <list style="numbers">
-                        <t>The Version Byte MUST be equal to 0x00 if the protocol described here is being implemented.</t>
+                        <t>The Version Byte MUST be equal to 0x00 if Awareness Protocol 0 (AP0) is being implemented.</t>
                     </list>
                 </t>
                 <t>
@@ -219,22 +223,22 @@
                 </t>
             </section>
             <section anchor="NextRequestedResponseTypeByte" title="Next Requested Response Type Byte">
-            	<t>
-            		The Next Requested Response Type Byte specifies the expected value of the Requested Response Type Byte in the PDU sent as a reply to the one in which the Next Requested Response Type Byte occurs. In other words, this byte specifies the PDU type which the sending Node wishes to send next to the receiving Node after it has replied in accordance with the first Requested Response Type Byte.
-            	</t>
-            	<t>
-            		The following conditions apply to transmission of the Next Requested Response Type Byte:
+                <t>
+                    The Next Requested Response Type Byte specifies the expected value of the Requested Response Type Byte in the PDU sent as a reply to the one in which the Next Requested Response Type Byte occurs. In other words, this byte specifies the PDU type which the sending Node wishes to send next to the receiving Node after it has replied in accordance with the first Requested Response Type Byte.
+                </t>
+                <t>
+                    The following conditions apply to transmission of the Next Requested Response Type Byte:
                     <list style="numbers">
                         <t>The Next Requested Response Type Byte MUST carry only values of possible PDU types that are listed as valid responses to a PDU of the type specified in the Requested Response Type Byte.</t>
                         <t>The Next Requested Response Type Byte MUST be set to 0xFF in the case that the transmitting Node wishes to receive a PDU in response that has a Requested Response Type Byte equal to 0xFF.</t>
                     </list>
-            	</t>
-            	<t>
-            		The following conditions apply to reception of the Next Requested Response Type Byte:
+                </t>
+                <t>
+                    The following conditions apply to reception of the Next Requested Response Type Byte:
                     <list style="numbers">
                         <t>The PDU sent in response to a PDU containing a Requested Response Type Byte not equal to 0xFF MUST have its own Requested Response Type Byte set to the value of the Next Requested Response Type Byte in the received PDU.</t>
                     </list>
-            	</t>
+                </t>
             </section>
             <section anchor="DataLengthInteger" title="Data Length Integer">
                 <t>
@@ -260,7 +264,7 @@
                 <t>
                     The following conditions apply to transmission of the Data Bytes:
                     <list style="numbers">
-                        <t>The Data Bytes MUST be encoded as specified by the Unit Type Byte.</t>
+                        <t>The Data Bytes MUST be encoded in the format referred to by the value of the Unit Type Byte.</t>
                         <t>The Data Bytes MUST not exceed the value of the Data Length Integer in length.</t>
                     </list>
                 </t>
@@ -281,11 +285,14 @@
                     The following conditions apply to transmission of a Nothing PDU:
                     <list style="numbers">
                         <t>The vluae of the Unit Type Byte MUST be 0x00.</t>
-                        <t>The value of the Requested Response Type Byte MUST be 0xFF, 0x08 (Item Transfer), or 0x09 (Set Transfer).</t>
+                        <t>The value of the Requested Response Type Byte MUST be 0xFF, 0x08 (Item Transfer), 0x09 (Set Transfer), or 0x10 (Assembly Transfer).</t>
                     </list>
                 </t>
                 <t>
                     The following conditions apply to reception of a Nothing PDU:
+                    <list style="numbers">
+                        <t>A suitable PDU MUST be sent in reply if the Requested Response Type Byte is not 0xFF.</t>
+                    </list>
                 </t>
             </section>
             <section anchor="SearchCategoryofPDUTypes" title="Search Category of PDU Types">
@@ -294,10 +301,11 @@
                         A Unit Type Byte equal to 0x01 specifies that the PDU in which it is received is of the Local Search type.
                     </t>
                     <texttable anchor="DataBytesFormatfortheLocalSearchPDU" title="Data Bytes Format for the Local Search PDU">
-                        <ttcol align='center'>1 byte</ttcol>
-                        <ttcol align='center'>4 bytes (32 bits) unsigned integer</ttcol>
-                        <c>Depth Limit</c>
-                        <c>Timeout Milliseconds</c>
+                        <ttcol align='center'>Length</ttcol>
+                        <ttcol align='center'>Format</ttcol>
+                        <ttcol align='center'>Meaning</ttcol>
+                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Depth Limit</c>
+                        <c>4 bytes</c><c>32-bit unsigned integer</c><c>Timeout Milliseconds</c>
                     </texttable>
                     <t>
                         The following conditions apply to transmission of a Local Search PDU:
@@ -331,15 +339,15 @@
                     </t>
                 </section>
                 <section anchor="ProcessInputData" title="Process Input Data">
-                	<t>
-                		A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Process Input Data type.
-                	</t>
-                	<t>
-                		The following conditions apply to transmission of a Process Input Data PDU:
-                	</t>
-                	<t>
-                		The following conditions apply to reception of a Process Input Data PDU:
-                	</t>
+                    <t>
+                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Process Input Data type.
+                    </t>
+                    <t>
+                        The following conditions apply to transmission of a Process Input Data PDU:
+                    </t>
+                    <t>
+                        The following conditions apply to reception of a Process Input Data PDU:
+                    </t>
                 </section>
             </section>
             <section anchor="TransferCategoryofPDUTypes" title="Transfer Category of PDU Types">
