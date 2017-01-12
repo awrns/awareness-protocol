@@ -298,31 +298,53 @@
             <section anchor="SearchCategoryofPDUTypes" title="Search Category of PDU Types">
                 <section anchor="LocalSearch" title="Local Search">
                     <t>
-                        A Unit Type Byte equal to 0x01 specifies that the PDU in which it is received is of the Local Search type.
+                        A Unit Type Byte equal to 0x01 specifies that the PDU in which it is received is of the Local Search type. A Local Search PDU conveys a request for the receiving Node to compute the most optimal Assembly known which models the provided Set. The returned Assembly must use only Functions local to the Node to which the Local Search PDU is sent.
                     </t>
                     <texttable anchor="DataBytesFormatfortheLocalSearchPDU" title="Data Bytes Format for the Local Search PDU">
                         <ttcol align='center'>Length</ttcol>
                         <ttcol align='center'>Format</ttcol>
                         <ttcol align='center'>Meaning</ttcol>
-                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Depth Limit</c>
                         <c>4 bytes</c><c>32-bit unsigned integer</c><c>Timeout Milliseconds</c>
                     </texttable>
                     <t>
                         The following conditions apply to transmission of a Local Search PDU:
+                        <list style="numbers">
+                            <t>The value of the Unit Type Byte MUST be 0x01.</t>
+                            <t>The value of the Requested Response Type Byte MUST be 0x00 (Nothing).</t>
+                            <t>The value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
+                        </list>
                     </t>
                     <t>
                         The following conditions apply to reception of a Local Search PDU:
+                        <list style="numbers">
+                            <t>The receiving Node MUST enact the Local Search Procedure described in the "Processing Analysis" section of this document.</t>
+                        </list>
                     </t>
                 </section>
                 <section anchor="PropagatingSearch" title="Propagating Search">
                     <t>
-                        A Unit Type Byte equal to 0x02 specifies that the PDU in which it is received is of the Propagating Search type.
+                        A Unit Type Byte equal to 0x02 specifies that the PDU in which it is received is of the Propagating Search type. A Propagating Search PDU conveys a request for the receiving Node to compute the most optimal Assembly known which models the provided Set. The returned Assembly may use both Functions local to the node to which the Local Search PDU is sent, and Functions known which are remote to that Node.
                     </t>
+                    <texttable anchor="DataBytesFormatforthePropagatingSearchPDU" title="Data Bytes Format for the Propagating Search PDU">
+                        <ttcol align='center'>Length</ttcol>
+                        <ttcol align='center'>Format</ttcol>
+                        <ttcol align='center'>Meaning</ttcol>
+                        <c>1 byte</c><c>16-bit unsigned integer</c><c>Depth Limit</c>
+                        <c>4 bytes</c><c>32-bit unsigned integer</c><c>Timeout Milliseconds</c>
+                    </texttable>
                     <t>
                         The following conditions apply to transmission of a Propagating Search PDU:
+                        <list style="numbers">
+                            <t>The value of the Unit Type Byte MUST be 0x02.</t>
+                            <t>The value of the Requested Response Type Byte MUST be 0x00 (Nothing).</t>
+                            <t>The value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
+                        </list>
                     </t>
                     <t>
                         The following conditions apply to reception of a Propagating Search PDU:
+                        <list style="numbers">
+                            <t>The receiving Node MUST enact the Propagating Search Procedure described in the "Processing Analysis" section of this document.</t>
+                        </list>
                     </t>
                 </section>
             </section>
