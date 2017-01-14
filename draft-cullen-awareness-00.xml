@@ -133,6 +133,7 @@
                 <ttcol align='center'>Format</ttcol>
                 <ttcol align='center'>Meaning</ttcol>
                 <c>1 byte</c><c>Must be 0x00</c><c>Version Byte</c>
+                <c>8 bytes</c><c>64-bit unsigned integer</c><c>Timestamp Integer</c>
                 <c>1 byte</c><c>PDU types only</c><c>Unit Type Byte</c>
                 <c>1 byte</c><c>PDU types only</c><c>Transmission Cause Type Byte</c>
                 <c>1 byte</c><c>PDU types only</c><c>Requested Response Type Byte</c>
@@ -161,6 +162,23 @@
                     The following conditions apply to reception of the Version Byte:
                     <list style="numbers">
                         <t>If the Version Byte is not found equal to the Version Byte of a supported protocol version, the receiving implementation MUST send an Incompatible PDU.</t>
+                    </list>
+                </t>
+            </section>
+            <section anchor="TimestampInteger" title="Timestamp Integer">
+                <t>
+                    The Timestamp Integer is representative of the point in 'connection time' at which the PDU containing it was assembled. More specifically, it serves as a representation of the time at which the data contained in the PDU containing it was originally created. It is measured in milliseconds.
+                </t>
+                <t>
+                    The following conditions apply to transmission of the Timestamp Integer:
+                    <list style="numbers">
+                        <t>The value encoded in the Timestamp Integer MUST be the time elapsed before the initiation of the TCP connection in milliseconds unless the sending Endpoint is the server, and has previously received an Update Connection Time PDU.</t>
+                    </list>
+                </t>
+                <t>
+                    The following conditions apply to reception of the Timestamp Integer:
+                    <list style="numbers">
+                        <t>The value of the Timestamp Integer should be treated as the time at which the data contained in the received PDU was created.</t>
                     </list>
                 </t>
             </section>
