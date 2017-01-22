@@ -1,0 +1,11 @@
+compile:
+  pre:
+    - pip install xml2rfc
+  override:
+    - xml2rfc draft-cullen-awareness-00.xml
+  post:
+    - cp *.txt $CIRCLE_ARTIFACTS/
+
+test:
+  override:
+    - echo
