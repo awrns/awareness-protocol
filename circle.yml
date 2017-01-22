@@ -2,9 +2,10 @@ compile:
   pre:
     - pip install xml2rfc
   override:
-    - xml2rfc draft-cullen-awareness-00.xml
+    - xml2rfc draft-cullen-awareness-00.xml --text --html
   post:
     - cp *.txt $CIRCLE_ARTIFACTS/
+    - cp *.html $CIRCLE_ARTIFACTS/
 
 test:
   override:
