@@ -322,7 +322,7 @@
                     <ttcol align='center'>Length</ttcol>
                     <ttcol align='center'>Format</ttcol>
                     <ttcol align='center'>Meaning</ttcol>
-                    <c>4 bytes</c><c>32-bit unsigned integer</c><c>Quantity Milliseconds</c>
+                    <c>2 bytes</c><c>16-bit unsigned integer</c><c>Quantity Milliseconds</c>
                 </texttable>
                 <t>
                     The following conditions apply to transmission of an Update Time PDU:
