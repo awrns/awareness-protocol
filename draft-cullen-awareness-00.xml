@@ -348,7 +348,7 @@
                         <list style="numbers">
                             <t>The value of the Unit Type Byte MUST be 0x01.</t>
                             <t>The value of the Requested Response Type Byte MUST be 0x00 (Nothing).</t>
-                            <t>The value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
+                            <t>In the case that the Requested Response Type Byte is 0x00 (Nothing), the value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
                         </list>
                     </t>
                     <t>
@@ -374,7 +374,7 @@
                         <list style="numbers">
                             <t>The value of the Unit Type Byte MUST be 0x02.</t>
                             <t>The value of the Requested Response Type Byte MUST be 0x00 (Nothing).</t>
-                            <t>The value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
+                            <t>In the case that the value of the Requested Response Type Byte is 0x00 (Nothing), the value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
                         </list>
                     </t>
                     <t>
