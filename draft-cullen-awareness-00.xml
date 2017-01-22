@@ -167,7 +167,7 @@
             </section>
             <section anchor="TimestampInteger" title="Timestamp Integer">
                 <t>
-                    The Timestamp Integer is representative of the point in 'connection time' at which the PDU containing it was assembled. More specifically, it serves as a representation of the time at which the data contained in the PDU containing it was originally created. It is measured in milliseconds.
+                    The Timestamp Integer is representative of the point in 'connection time' at which the PDU containing it was assembled. More specifically, it serves as a representation of the time at which the data contained in the PDU containing it was originally created. It is measured in milliseconds. Such a timestamp is included in all Awareness PDUs to facilitate the usage of the protocol for time-sensitive applications.
                 </t>
                 <t>
                     The following conditions apply to transmission of the Timestamp Integer:
@@ -184,7 +184,7 @@
             </section>
             <section anchor="UnitTypeByte" title="Unit Type Byte">
                 <t>
-                    The Unit Type Byte is representative of the parsing that should be enacted for the Data Bytes section of the specific PDU in which it occurs. It will also be referred to as describing the "PDU type".
+                    The Unit Type Byte is representative of the parsing that should be enacted for the Data Bytes section of the specific PDU in which it occurs. It will also be referred to as describing the "PDU type". This byte contains the primary form of identification for the type of data that is being contained in a PDU, and is used in this document to describe and identify the purpose of the PDU in which it is transmitted.
                 </t>
                 <t>
                     The following conditions apply to transmission of the Unit Type Byte:
@@ -204,7 +204,7 @@
             </section>
             <section anchor="TransmissionCauseTypeByte" title="Transmission Cause Type Byte">
                 <t>
-                    The Transmission Cause Type Byte is representative of the Unit Type Byte of the Protocol Data Unit that was the cause of the sending of the Protocol Data Unit in which the Transmission Cause Type Byte occurs.
+                    The Transmission Cause Type Byte is representative of the Unit Type Byte of the Protocol Data Unit that was the cause of the sending of the Protocol Data Unit in which the Transmission Cause Type Byte occurs. The Transmission Cause Type Byte is included in the Awareness PDU as a form of error-checking, in order to increase the reliability of the 'conversation-modeled' form of network communication outlined by the Requested Reponse Type Byte and the Next Requested Response Type Byte.
                 </t>
                 <t>
                     The following conditions apply to transmission of the Transmission Cause Type Byte:
@@ -224,7 +224,7 @@
             </section>
             <section anchor="RequestedResponseTypeByte" title="Requested Response Type Byte">
                 <t> 
-                    The Requested Response Type Byte is representative of the Unit Type Byte of the Protocol Data Unit which the requesting node wishes to receive as a result of its transmission to the receiving node.
+                    The Requested Response Type Byte is representative of the Unit Type Byte of the Protocol Data Unit which the requesting node wishes to receive as a result of its transmission to the receiving node. Along with the Next Requested Response Type Byte, the Requested Response Type Byte provides a conversational, context-aware form of network communication for the Awareness protcol, and is used to initiate a network 'conversation' in the case that it is equal to 0x00, and end a 'conversation' when it is equal to 0x00. 
                 </t>
                 <t>
                     The following conditions apply to transmission of the Requested Response Type Byte:
@@ -242,7 +242,7 @@
             </section>
             <section anchor="NextRequestedResponseTypeByte" title="Next Requested Response Type Byte">
                 <t>
-                    The Next Requested Response Type Byte specifies the expected value of the Requested Response Type Byte in the PDU sent as a reply to the one in which the Next Requested Response Type Byte occurs. In other words, this byte specifies the PDU type which the sending Node wishes to send next to the receiving Node after it has replied in accordance with the first Requested Response Type Byte.
+                    The Next Requested Response Type Byte specifies the expected value of the Requested Response Type Byte in the PDU sent as a reply to the one in which the Next Requested Response Type Byte occurs. In other words, this byte specifies the PDU type which the sending Node wishes to send next to the receiving Node after it has replied in accordance with the first Requested Response Type Byte. This byte completes the conversational model of communication over the Awareness protocol by allowing the direction of the 'conversation' to be steered according to the network client's intention.
                 </t>
                 <t>
                     The following conditions apply to transmission of the Next Requested Response Type Byte:
@@ -260,7 +260,7 @@
             </section>
             <section anchor="DataLengthInteger" title="Data Length Integer">
                 <t>
-                    The Data Length Integer is a 64-bit unsigned integer representative of the number of bytes to be sent in the following Data Bytes section of the Protocol Data Unit in which it occurs.
+                    The Data Length Integer is a 64-bit unsigned integer representative of the number of bytes to be sent in the following Data Bytes section of the Protocol Data Unit in which it occurs. The Data Length Integer is primarily useful when reading bytes from the Data Bytes section in a protocol implementation, as it can be used to easily determine the number of bytes that should be read.
                 </t>
                 <t>
                     The following conditions apply to transmission of the Data Length Integer:
@@ -277,7 +277,7 @@
             </section>
             <section anchor="DataBytes" title="Data Bytes">
                 <t>
-                    The Data Bytes section is a flexible representation of the meaningful information transmitted by a Protocol Data Unit.
+                    The Data Bytes section is a flexible representation of the meaningful information transmitted by a Protocol Data Unit. The format of the Data Bytes (i.e. their meaningful interpretation) is defined by the Data Unit Type Byte. 
                 </t>
                 <t>
                     The following conditions apply to transmission of the Data Bytes:
@@ -298,7 +298,7 @@
         <section anchor="GeneralCategoryofPDUTypes" title="General Category of PDU Types">
             <section anchor="NothingPDUType" title="NothingPDUType">
                 <t>
-                    A Unit Type Byte equal to 0x00 specifies that the PDU in which it is received is of the Nothing type. A Nothing PDU's Data Bytes section contains no data.
+                    A Unit Type Byte equal to 0x00 specifies that the PDU in which it is received is of the Nothing type. A Nothing PDU's Data Bytes section contains no data. Often, a Nothing Type PDU will be used as a form of request for another piece of data through the values set in the Requested Response Type Byte and Next Requested REsponse Type Byte. 
                 </t>
                 <t>
                     The following conditions apply to transmission of a Nothing PDU:
