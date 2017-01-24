@@ -312,12 +312,6 @@
                         <t>In the case that the Requested Response Type Byte is 0x09 (Set Transfer), the Next Requested Response Type Byte MUST Be 0x10 (Assembly Transfer).</t>
                     </list>
                 </t>
-                <t>
-                    The following conditions apply to reception of a Nothing PDU:
-                    <list style="numbers">
-                        <t>A suitable PDU MUST be sent in reply if the Requested Response Type Byte is not 0xFF.</t>
-                    </list>
-                </t>
             </section>
             <section anchor="UpdateTimePDUType" title="Update Time PDU Type">
                 <t>

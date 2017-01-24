@@ -4,10 +4,9 @@ dependencies:
 
 compile:
   override:
-    - xml2rfc draft-cullen-awareness-00.xml --text --html
+    - xml2rfc draft-cullen-awareness-00.xml --text --nroff --html
   post:
-    - cp *.txt $CIRCLE_ARTIFACTS/
-    - cp *.html $CIRCLE_ARTIFACTS/
+    - cp draft-cullen-awareness-00.* $CIRCLE_ARTIFACTS
 
 test:
   override:
