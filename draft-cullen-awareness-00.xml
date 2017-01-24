@@ -325,9 +325,18 @@
                 </texttable>
                 <t>
                     The following conditions apply to transmission of an Update Time PDU:
+                    <list style="numbers">
+                        <t>The Update Time PDU MUST only be transmitted by a client.</t>
+                        <t>The value of the Unit Type Byte MUST be 0x00.</t>
+                        <t>The value of the Requested Response Type Byte MUST be 0xFF.</t>
+                        <t>The value of the Next Requested Response Type Byte MUST be 0xFF.</t>
+                    </list>
                 </t>
                 <t>
                     The following conditions apply to reception of an Update Time PDU:
+                    <list style="numbers">
+                        <t>The value of the Timestamp Integer on each subsequent transmitted PDU by the server SHOULD be set forward by the time specified in the recieved Update Time PDU.</t>
+                    </list>
                 </t>
             </section>
         </section>
@@ -415,7 +424,7 @@
                 </section>
                 <section anchor="ProcessInputData" title="Process Input Data">
                     <t>
-                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Process Input Data type.
+                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Process Input Data type. A Process Input Data PDU
                     </t>
                     <t>
                         The following conditions apply to transmission of a Process Input Data PDU:
