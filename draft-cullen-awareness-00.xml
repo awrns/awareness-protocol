@@ -390,7 +390,7 @@
                     <t>
                         The following conditions apply to reception of a Propagating Search PDU:
                         <list style="numbers">
-                            <t>The receiving Node MUST enact the Propagating Search Procedure described in the "Processing Analysis" section of this document.</t>
+                            <t>The receiving Endpoint MUST enact the Propagating Search Procedure described in the "Processing Analysis" section of this document.</t>
                         </list>
                     </t>
                 </section>
@@ -416,7 +416,7 @@
                         <list style="numbers">
                             <t>The Get Acceptable Data PDU MUST only be transmitted by a server.</t>
                             <t>The value of the Unit Type Byte MUST be 0x03.</t>
-                            <t>The value of the Data Length Integer must be a multiple of 8.</t>
+                            <t>The value of the Data Length Integer MUST be a multiple of 8.</t>
                             <t>The value of the Requested Response Type Byte MUST be 0xFF.</t>
                             <t>The value of the Next Requested Response Type Byte MUST be 0xFF.</t>
                         </list>
@@ -424,13 +424,33 @@
                 </section>
                 <section anchor="ProcessInputData" title="Process Input Data">
                     <t>
-                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Process Input Data type. A Process Input Data PDU
+                        A Unit Type Byte equal to 0x04 specifies that the PDU in which it is received is of the Process Input Data type. A Process Input Data PDU is used for the purpose of allowing a client to pass an Item of data to a server as input for one of its Abilities. An output Item is then returned from the server to the client through an Item Transfer PDU.
                     </t>
+                    <texttable anchor='DataBytesForamtfortheProcessInputDataPDU' title="Data Bytes Format for the Process Input Data PDU">
+                        <ttcol align='center'>Length</ttcol>
+                        <ttcol align='center'>Format</ttcol>
+                        <ttcol align='center'>Meaning</ttcol>
+                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Ability Index</c>
+                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Parameter 0</c>
+                        <c>...</c><c>...</c><c>...</c>
+                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Parameter n</c>
+                    </texttable>
                     <t>
                         The following conditions apply to transmission of a Process Input Data PDU:
+                        <list style="numbers">
+                            <t>The Process Input Data PDU MUST only be transmitted by a client.</t>
+                            <t>The value of the Unit Type Byte MUST be 0x04.</t>
+                            <t>The value of the Data Length Integer MUST be greater than or equal to 1.</t> 
+                            <t>The value of the Requested Response Type Byte MUST be 0x05 (Item Transfer).</t>
+                            <t>THe value of the Next Requested Response Type Byte MUST be 0xFF.</t>
+                        </list>
                     </t>
                     <t>
                         The following conditions apply to reception of a Process Input Data PDU:
+                        <list style="numbers">
+                            <t>The receiving Endpoint MUST process the parameters provided by the client, and send an Item Transfer PDU in response.</t>
+                            <t>In the case that the number of parameters provided does not match the number accepted by the Ability in question, or the Data Length Integer is not greater than or equal to 1, a Nonsense Data PDU MUST be sent.</t>
+                        </list>
                     </t>
                 </section>
             </section>
