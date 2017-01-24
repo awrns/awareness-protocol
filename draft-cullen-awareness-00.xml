@@ -388,13 +388,32 @@
             <section anchor="DataCategoryofPDUTypes" title="Data Category of PDU Types">
                 <section anchor="GetAcceptableData" title="Get Acceptable Data">
                     <t>
-                        A Unit Type Byte equal to 0x03 specifies that the PDU in which it is received is of the Get Acceptable Data type.
+                        A Unit Type Byte equal to 0x03 specifies that the PDU in which it is received is of the Get Acceptable Data type. The Get Acceptable Data PDU serves as a method by which the server implementation can provide to a client an outline the types of Items accepted by the Abilities which it provides via the Process Input Data PDU. The Get Acceptable Data PDU can have a variable-length Data Bytes section, where the length is dependent upon the number of Abilities provided.
                     </t>
+                    <texttable anchor="DataBytesFormatfortheGetAcceptableDataPDU" title="Data Bytes Format for the Get Acceptable Data PDU">
+                        <ttcol align='center'>Length</ttcol>
+                        <ttcol align='center'>Format</ttcol>
+                        <ttcol align='center'>Meaning</ttcol>
+                        <c>4 bytes</c><c>32-bit unsigned integer</c><c>Ability 0 Input Size</c>
+                        <c>4 bytes</c><c>32-bit unsigned integer</c><c>Ability 0 Output Size</c>
+                        <c>...</c><c>...</c><c>...</c>
+                        <c>...</c><c>...</c><c>...</c>
+                        <c>4 bytes</c><c>32-bit unsigned integer</c><c>Ability n Input Size</c>
+                        <c>4 bytes</c><c>32-bit unsigned integer</c><c>Ability n Output Size</c>
+                    </texttable>
                     <t>
                         The following conditions apply to transmission of a Get Acceptable Data PDU:
+                        <list style="numbers">
+                            <t>The value of the Data Length Integer must be a multiple of 8.</t>
+                            <t>The value of the Requested Response Type Byte MUST be 0xFF.</t>
+                            <t>The value of the Next Requested Response Type Byte MUST be 0xFF.</t>
+                        </list>
                     </t>
                     <t>
                         The following conditions apply to reception of a Get Acceptable Data PDU:
+                        <list style="numbers">
+                            <t></t>
+                        </list>
                     </t>
                 </section>
                 <section anchor="ProcessInputData" title="Process Input Data">
