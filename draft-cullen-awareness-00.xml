@@ -231,6 +231,7 @@
                     <list style="numbers">
                         <t>The Requested Response Type Byte MUST carry only values of possible PDU types that are listed as valid responses to the PDU type in which it occurs. Valid responses to each PDU type are described in the Data Unit Types section.</t>
                         <t>The Requested Response Type Byte MUST be set to 0xFF only if a response is not expected.</t>
+                        <t>In the case that the Requested Response Type Byte is 0xFF, the Next Requested Response Type Byte must also be 0xFF.</t>
                     </list>
                 </t>
                 <t>
@@ -248,13 +249,13 @@
                     The following conditions apply to transmission of the Next Requested Response Type Byte:
                     <list style="numbers">
                         <t>The Next Requested Response Type Byte MUST carry only values of possible PDU types that are listed as valid responses to a PDU of the type specified in the Requested Response Type Byte.</t>
-                        <t>The Next Requested Response Type Byte MUST be set to 0xFF in the case that the transmitting Node wishes to receive a PDU in response that has a Requested Response Type Byte equal to 0xFF.</t>
+                        <t>In the case that the Requested Response Type Byte is 0xFF, the Next Requested Response Type Byte must also be 0xFF.</t>
                     </list>
                 </t>
                 <t>
                     The following conditions apply to reception of the Next Requested Response Type Byte:
                     <list style="numbers">
-                        <t>The PDU sent in response to a PDU containing a Requested Response Type Byte not equal to 0xFF MUST have its own Requested Response Type Byte set to the value of the Next Requested Response Type Byte in the received PDU.</t>
+                        <t>The PDU sent in response to a PDU containing a Next Requested Response Type Byte not equal to 0xFF MUST have its own Requested Response Type Byte set to the value of the Next Requested Response Type Byte in the received PDU.</t>
                     </list>
                 </t>
             </section>
@@ -303,8 +304,12 @@
                 <t>
                     The following conditions apply to transmission of a Nothing PDU:
                     <list style="numbers">
+                        <t>The Nothing PDU MAY be transmitted by either a server or a client.</t>
                         <t>The value of the Unit Type Byte MUST be 0x00.</t>
-                        <t>The value of the Requested Response Type Byte MUST be 0xFF, 0x00 (Nothing), 0x08 (Item Transfer), 0x09 (Set Transfer), or 0x10 (Assembly Transfer).</t>
+                        <t>The value of the Requested Response Type Byte MUST be 0xFF, 0x00 (Nothing), 0x08 (Item Transfer), or 0x09 (Set Transfer).</t>
+                        <t>In the case that the Requested Response Type Byte is 0x00 (Nothing), the Next Requested Response Type Byte MUST be 0x01 (Update Time).</t>
+                        <t>In the case that the Requested Response Type Byte is 0x08 (Item Transfer), the Next Requested Response Type Byte MUST be 0x08 (Item Transfer).</t>
+                        <t>In the case that the Requested Response Type Byte is 0x09 (Set Transfer), the Next Requested Response Type Byte MUST Be 0x10 (Assembly Transfer).</t>
                     </list>
                 </t>
                 <t>
@@ -346,6 +351,7 @@
                     <t>
                         The following conditions apply to transmission of a Local Search PDU:
                         <list style="numbers">
+                            <t>The Local Search PDU MUST only be transmitted by a client.</t>
                             <t>The value of the Unit Type Byte MUST be 0x01.</t>
                             <t>The value of the Requested Response Type Byte MUST be 0x00 (Nothing).</t>
                             <t>In the case that the Requested Response Type Byte is 0x00 (Nothing), the value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
@@ -372,6 +378,7 @@
                     <t>
                         The following conditions apply to transmission of a Propagating Search PDU:
                         <list style="numbers">
+                            <t>The Propagating Search PDU MUST only be transmitted by a client.</t>
                             <t>The value of the Unit Type Byte MUST be 0x02.</t>
                             <t>The value of the Requested Response Type Byte MUST be 0x00 (Nothing).</t>
                             <t>In the case that the value of the Requested Response Type Byte is 0x00 (Nothing), the value of the Next Requested Response Type Byte MUST be 0x07 (Assembly Transfer).</t>
@@ -404,15 +411,11 @@
                     <t>
                         The following conditions apply to transmission of a Get Acceptable Data PDU:
                         <list style="numbers">
+                            <t>The Get Acceptable Data PDU MUST only be transmitted by a server.</t>
+                            <t>The value of the Unit Type Byte MUST be 0x03.</t>
                             <t>The value of the Data Length Integer must be a multiple of 8.</t>
                             <t>The value of the Requested Response Type Byte MUST be 0xFF.</t>
                             <t>The value of the Next Requested Response Type Byte MUST be 0xFF.</t>
-                        </list>
-                    </t>
-                    <t>
-                        The following conditions apply to reception of a Get Acceptable Data PDU:
-                        <list style="numbers">
-                            <t></t>
                         </list>
                     </t>
                 </section>
