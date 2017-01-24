@@ -1,6 +1,8 @@
-compile:
+dependencies:
   pre:
     - pip install xml2rfc
+
+compile:
   override:
     - xml2rfc draft-cullen-awareness-00.xml --text --html
   post:
