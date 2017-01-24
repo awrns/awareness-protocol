@@ -454,38 +454,38 @@
                     </t>
                 </section>
             </section>
-            <section anchor="TransferCategoryofPDUTypes" title="Transfer Category of PDU Types">
-                <section anchor="ItemTransfer" title="Item Transfer">
+            <section anchor="ResponseCategoryofPDUTypes" title="Response Category of PDU Types">
+                <section anchor="ItemResponse" title="Item Response">
                     <t>
-                        A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Item Transfer type.
+                        A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Item Response type.
                     </t>
                     <t>
-                        The following conditions apply to transmission of an Item Transfer PDU:
+                        The following conditions apply to transmission of an Item Response PDU:
                     </t>
                     <t>
-                        The following conditions apply to reception of an Item Transfer PDU:
-                    </t>
-                </section>
-                <section anchor="SetTransfer" title="Set Transfer">
-                    <t>
-                        A Unit Type Byte equal to 0x06 specifies that the PDU in which it is received is of the Set Transfer type.
-                    </t>
-                    <t>
-                        The following conditions apply to transmission of a Set Transfer PDU:
-                    </t>
-                    <t>
-                        The following conditions apply to reception of a Set Transfer PDU:
+                        The following conditions apply to reception of an Item Response PDU:
                     </t>
                 </section>
-                <section anchor="AssemblyTransfer" title="Assembly Transfer">
+                <section anchor="SetResponse" title="Set Response">
                     <t>
-                        A Unit Type Byte equal to 0x07 specifies that the PDU in which it is received is of the Assembly Transfer type.
+                        A Unit Type Byte equal to 0x06 specifies that the PDU in which it is received is of the Set Response type.
                     </t>
                     <t>
-                        The following conditions apply to transmission of an Assembly Transfer PDU:
+                        The following conditions apply to transmission of a Set Response PDU:
                     </t>
                     <t>
-                        The following conditions apply to reception of an Assembly Tranfer PDU:
+                        The following conditions apply to reception of a Set Response PDU:
+                    </t>
+                </section>
+                <section anchor="AssemblyResponse" title="Assembly Response">
+                    <t>
+                        A Unit Type Byte equal to 0x07 specifies that the PDU in which it is received is of the Assembly Response type.
+                    </t>
+                    <t>
+                        The following conditions apply to transmission of an Assembly Response PDU:
+                    </t>
+                    <t>
+                        The following conditions apply to reception of an Assembly Response PDU:
                     </t>
                 </section>
             </section>
