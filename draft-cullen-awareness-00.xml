@@ -457,13 +457,25 @@
             <section anchor="ResponseCategoryofPDUTypes" title="Response Category of PDU Types">
                 <section anchor="ItemResponse" title="Item Response">
                     <t>
-                        A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Item Response type.
+                        A Unit Type Byte equal to 0x05 specifies that the PDU in which it is received is of the Item Response type. An Item Response PDU provides the capability for the server to return data in the form of an Item to a client, in the case that a client has, for example, sent a Process Input Data PDU.
                     </t>
+                    <texttable anchor='DataBytesFormatfortheItemResponsePDU' title="Data Bytes Format for the Item Response PDU">
+                        <ttcol align='center'>Length</ttcol>
+                        <ttcol align='center'>Format</ttcol>
+                        <ttcol align='center'>Meaning</ttcol>
+                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Parameter 0</c>
+                        <c>...</c><c>...</c><c>...</c>
+                        <c>1 byte</c><c>8-bit unsigned integer</c><c>Parameter n</c>
+                    </texttable>
                     <t>
                         The following conditions apply to transmission of an Item Response PDU:
-                    </t>
-                    <t>
-                        The following conditions apply to reception of an Item Response PDU:
+                        <list style="numbers">
+                            <t>The Item Response PDU MUST only be transmitted by a server.</t>
+                            <t>The value of the Unit Type Byte MUST Be 0x05.</t>
+                            <t>The value of the Data Length Integer MUST be greater than or equal to 0.</t>
+                            <t>The value of the Requested Response Type Byte MUST be 0xFF.</t>
+                            <t>The value of the Next Requested Response Type Byte MUST be 0xFF.</t>
+                        </list>
                     </t>
                 </section>
                 <section anchor="SetResponse" title="Set Response">
